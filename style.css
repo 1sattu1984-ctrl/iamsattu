@@ -1,0 +1,1585 @@
+/* ElectroLab Core Design System & Stylesheet */
+
+:root {
+  --bg-main: #070a13;
+  --bg-card: rgba(17, 24, 39, 0.65);
+  --bg-card-hover: rgba(23, 33, 53, 0.8);
+  --bg-sidebar: #0b0f1f;
+  --bg-inner: rgba(10, 15, 30, 0.8);
+  
+  --color-primary: #06b6d4;      /* Electric Cyan */
+  --color-primary-rgb: 6, 182, 212;
+  --color-secondary: #8b5cf6;    /* Volt Violet */
+  --color-secondary-rgb: 139, 92, 246;
+  --color-accent: #10b981;       /* Charge Green */
+  --color-accent-rgb: 16, 185, 129;
+  --color-red: #f43f5e;          /* Anode Rose */
+  --color-red-rgb: 244, 63, 94;
+  --color-gold: #f59e0b;         /* Gold Plating Amber */
+  --color-gold-rgb: 245, 158, 11;
+  --color-cyan: #06b6d4;
+  --color-purple: #8b5cf6;
+  
+  --text-bright: #f8fafc;
+  --text-normal: #cbd5e1;
+  --text-muted: #64748b;
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass-bright: rgba(255, 255, 255, 0.15);
+  
+  --shadow-neon-primary: 0 0 15px rgba(6, 182, 212, 0.35);
+  --shadow-neon-secondary: 0 0 15px rgba(139, 92, 246, 0.35);
+  --shadow-neon-accent: 0 0 15px rgba(16, 185, 129, 0.35);
+  --shadow-neon-red: 0 0 15px rgba(244, 63, 94, 0.35);
+  --shadow-neon-gold: 0 0 15px rgba(245, 158, 11, 0.35);
+  
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-normal);
+  line-height: 1.5;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+code, .formula, pre, .potential-indicator {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* App Container Layout */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+  width: 260px;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-glass);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 1.5rem 1rem;
+  z-index: 100;
+}
+
+.sidebar-header {
+  padding-bottom: 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-bright);
+  letter-spacing: -0.5px;
+}
+
+.logo-icon {
+  color: var(--color-primary);
+  filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.6));
+  animation: pulse-glow 2s infinite alternate;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-grow: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-normal);
+  padding: 0.85rem 1.25rem;
+  border-radius: 0.5rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-bright);
+}
+
+.nav-item.active {
+  background-color: rgba(6, 182, 212, 0.15);
+  color: var(--color-primary);
+  border-left: 3px solid var(--color-primary);
+  box-shadow: inset 5px 0 10px rgba(6, 182, 212, 0.05);
+}
+
+.sidebar-footer {
+  border-top: 1px solid var(--border-glass);
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-btn {
+  width: 100%;
+}
+
+.footer-info {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Main Content Wrapper */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.05) 0px, transparent 50%);
+}
+
+/* Top Bar Styling */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2.5rem;
+  border-bottom: 1px solid var(--border-glass);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.page-title-container h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-bright);
+  letter-spacing: -0.5px;
+}
+
+.page-title-container p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.user-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.stat-badge {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  backdrop-filter: blur(5px);
+}
+
+.stat-badge strong {
+  color: var(--text-bright);
+}
+
+/* Glassmorphism Cards */
+.glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.glass-inner {
+  background: var(--bg-inner);
+  border: 1px solid var(--border-glass);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+}
+
+/* Tab panes toggling */
+.tab-pane {
+  display: none;
+  padding: 2rem 2.5rem;
+  animation: fadeIn var(--transition-normal);
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* Common Layout Elements */
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-bright);
+  position: relative;
+  padding-left: 0.75rem;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  height: 70%;
+  width: 4px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  box-shadow: var(--shadow-neon-primary);
+}
+
+/* Welcome Banner */
+.welcome-banner {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
+  border: 1px solid var(--border-glass-bright);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--shadow-neon-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-banner::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(6,182,212,0.15) 0%, transparent 70%);
+  top: -50px;
+  right: -50px;
+  pointer-events: none;
+}
+
+.welcome-text h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--text-bright);
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+}
+
+.welcome-text p {
+  font-size: 1.1rem;
+  color: var(--text-normal);
+  max-width: 600px;
+  margin-bottom: 1.5rem;
+}
+
+/* Dashboard Cards Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.dash-card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dash-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--border-glass-bright);
+  background: var(--bg-card-hover);
+}
+
+.dash-card .card-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.dash-card .card-icon.cyan {
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--color-primary);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.dash-card .card-icon.purple {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--color-secondary);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.dash-card .card-icon.green {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-accent);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.dash-card .card-icon.gold {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--color-gold);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.dash-card h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.dash-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  flex-grow: 1;
+}
+
+.dash-card .card-action {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  transition: gap var(--transition-fast);
+}
+
+.dash-card:hover .card-action {
+  gap: 0.75rem;
+}
+
+/* =========================================
+   GALVANIC CELL SIMULATOR TAB
+   ========================================= */
+.lab-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.lab-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.panel-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.form-control {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-glass-bright);
+  color: var(--text-bright);
+  padding: 0.65rem 1rem;
+  border-radius: 0.5rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+}
+
+.potential-indicator {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  text-align: right;
+  margin-top: 0.25rem;
+}
+
+.divider {
+  border: 0;
+  height: 1px;
+  background: var(--border-glass);
+  margin: 0.5rem 0;
+}
+
+.voltage-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px dashed var(--border-glass-bright);
+  padding: 1rem;
+  border-radius: 0.75rem;
+}
+
+.voltage-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.voltage-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  text-shadow: var(--shadow-neon-primary);
+}
+
+.reaction-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.reaction-box h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.reaction-box .formula {
+  background: var(--bg-inner);
+  border: 1px solid var(--border-glass);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--text-bright);
+}
+
+.half-reactions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.half-rxn {
+  background: rgba(10, 15, 30, 0.4);
+  border: 1px solid var(--border-glass);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.half-rxn h5 {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.half-rxn code {
+  color: var(--text-bright);
+  font-weight: bold;
+}
+
+/* Voltmeter and Visual Lab */
+.lab-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 480px;
+}
+
+.voltmeter-meter {
+  position: absolute;
+  top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #111827;
+  border: 3px solid #374151;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  width: 200px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.voltmeter-screen {
+  background: #030712;
+  border: 1px solid #1f2937;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.25rem;
+  color: #10b981;
+  text-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.voltmeter-meter .needle {
+  width: 2px;
+  height: 45px;
+  background: var(--color-red);
+  position: relative;
+  bottom: -15px;
+  transform-origin: bottom center;
+  transform: rotate(0deg);
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: var(--shadow-neon-red);
+}
+
+.dial-ticks {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.svg-container {
+  width: 100%;
+  max-width: 600px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(17, 24, 39, 0.3) 0%, transparent 80%);
+  margin-top: 2rem;
+}
+
+.simulation-controls {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* =========================================
+   BATTERY BUILDER CHALLENGE TAB
+   ========================================= */
+.builder-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.builder-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.level-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.level-card {
+  background: var(--bg-inner);
+  border: 1px solid var(--border-glass);
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.level-card:hover {
+  border-color: var(--border-glass-bright);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.level-card.active {
+  border-color: var(--color-secondary);
+  background: rgba(139, 92, 246, 0.1);
+  box-shadow: inset 0 0 10px rgba(139, 92, 246, 0.1);
+}
+
+.level-card.completed {
+  border-color: var(--color-accent);
+}
+
+.level-card-info h5 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.level-card-info span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.level-status-icon {
+  font-size: 1.1rem;
+}
+
+.level-status-icon.text-gold { color: var(--color-gold); }
+.level-status-icon.text-green { color: var(--color-accent); }
+.level-status-icon.text-muted { color: var(--text-muted); }
+
+.level-requirements {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-left: 3px solid var(--color-secondary);
+}
+
+.level-requirements h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.req-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.req-label {
+  color: var(--text-muted);
+}
+
+.req-val {
+  font-weight: bold;
+  color: var(--text-bright);
+}
+
+.req-desc {
+  font-size: 0.8rem;
+  color: var(--text-normal);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.req-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Battery Workbench */
+.builder-workbench {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.workbench-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workbench-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: -1rem;
+}
+
+.grid-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-inner);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-glass);
+}
+
+.inline-select {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  width: auto;
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+.voltage-display-mini {
+  font-size: 0.9rem;
+}
+
+.voltage-display-mini strong {
+  color: var(--color-primary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Battery Cell grid layout */
+.battery-grid-container {
+  background: rgba(10, 15, 30, 0.4);
+  border: 2px dashed var(--border-glass);
+  border-radius: 1rem;
+  padding: 2.5rem;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.battery-grid {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cell-slot {
+  width: 100px;
+  height: 140px;
+  border: 2px dashed var(--border-glass-bright);
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--text-muted);
+  position: relative;
+}
+
+.cell-slot:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.cell-present {
+  width: 90px;
+  height: 130px;
+  background: var(--bg-inner);
+  border: 2px solid var(--color-secondary);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.75rem 0.5rem;
+  box-shadow: var(--shadow-neon-secondary);
+  animation: scaleUp 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cell-cap {
+  width: 25px;
+  height: 8px;
+  background: var(--color-secondary);
+  border-radius: 2px 2px 0 0;
+  position: absolute;
+  top: -6px;
+  left: calc(50% - 12.5px);
+  box-shadow: 0 -2px 5px rgba(139, 92, 246, 0.4);
+}
+
+.cell-chem {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-bright);
+  text-align: center;
+}
+
+.cell-voltage {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  text-align: center;
+}
+
+.cell-remove {
+  background: rgba(244, 63, 94, 0.2);
+  border: none;
+  color: var(--color-red);
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.cell-remove:hover {
+  background: rgba(244, 63, 94, 0.4);
+}
+
+.series-wire {
+  height: 4px;
+  width: 24px;
+  background: #fbbf24;
+  box-shadow: 0 0 8px #fbbf24;
+  border-radius: 2px;
+}
+
+/* Meter and Testing panel */
+.workbench-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-top: 1px solid var(--border-glass);
+  padding-top: 1.5rem;
+}
+
+.meter-bar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.meter-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  width: 160px;
+}
+
+.meter-track {
+  flex-grow: 1;
+  height: 20px;
+  background: rgba(10, 15, 30, 0.8);
+  border: 1px solid var(--border-glass-bright);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+  transition: width 0.5s ease-out;
+}
+
+.target-range-indicator {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: rgba(16, 185, 129, 0.25);
+  border-left: 2px solid var(--color-accent);
+  border-right: 2px solid var(--color-accent);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+}
+
+.meter-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 800;
+  width: 80px;
+  text-align: right;
+  color: var(--text-bright);
+}
+
+.workbench-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Test result panel */
+.test-result-panel {
+  border-left: 4px solid var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+.test-result-panel.success {
+  border-left-color: var(--color-accent);
+}
+
+.test-result-panel.fail {
+  border-left-color: var(--color-red);
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.result-icon {
+  font-size: 1.5rem;
+}
+
+.result-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.result-details {
+  font-size: 0.85rem;
+  color: var(--text-normal);
+  line-height: 1.4;
+}
+
+/* =========================================
+   REDOX BALANCING GAME TAB
+   ========================================= */
+.redox-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2rem;
+  align-items: start;
+}
+
+.redox-board {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.redox-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 1rem;
+}
+
+.difficulty-selectors {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.streak-counter {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-bright);
+}
+
+.equation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.equation-help {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.equation-formula-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.25rem;
+  background: var(--bg-inner);
+  border: 1px solid var(--border-glass-bright);
+  padding: 2rem;
+  border-radius: 1rem;
+  min-height: 120px;
+  width: 100%;
+}
+
+.eq-term {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-bright);
+}
+
+.coeff-input {
+  width: 45px;
+  height: 45px;
+  background: var(--bg-main);
+  border: 2px solid var(--border-glass-bright);
+  border-radius: 8px;
+  color: var(--color-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.35rem;
+  font-weight: bold;
+  text-align: center;
+  margin-right: 0.4rem;
+  transition: all var(--transition-fast);
+}
+
+.coeff-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-neon-primary);
+}
+
+.coeff-input.correct {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.coeff-input.incorrect {
+  border-color: var(--color-red);
+  color: var(--color-red);
+}
+
+.eq-arrow {
+  margin: 0 1rem;
+  color: var(--color-secondary);
+  font-size: 1.75rem;
+  text-shadow: var(--shadow-neon-secondary);
+}
+
+.equation-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.redox-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+.redox-feedback.success { border-left: 4px solid var(--color-accent); }
+.redox-feedback.fail { border-left: 4px solid var(--color-red); }
+
+.explanation-box {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.explanation-box p {
+  margin-bottom: 0.75rem;
+}
+
+.explanation-box p:last-child {
+  margin-bottom: 0;
+}
+
+.explanation-box ol {
+  margin-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Tutorial pane */
+.redox-rules {
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.rules-scroll {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.bal-steps {
+  margin-left: 1.25rem;
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bal-steps li strong {
+  color: var(--text-bright);
+}
+
+.pro-tip {
+  border-left: 3px solid var(--color-primary);
+}
+
+.pro-tip h5 {
+  font-size: 0.9rem;
+  color: var(--text-bright);
+  margin-bottom: 0.25rem;
+}
+
+.pro-tip p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* =========================================
+   ELECTROPLATING LAB TAB
+   ========================================= */
+.plating-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.plating-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--bg-inner);
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid var(--border-glass);
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-neon-primary);
+  transition: transform 0.1s;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.plating-tank-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tank-voltmeter {
+  display: flex;
+  justify-content: space-between;
+  background: var(--bg-inner);
+  border: 1px solid var(--border-glass);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.tank-voltmeter strong {
+  color: var(--color-primary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.bubble-indicator {
+  color: var(--color-accent);
+  text-shadow: var(--shadow-neon-accent);
+  animation: pulse-glow 1s infinite alternate;
+}
+
+.tank-visual-box {
+  width: 100%;
+  height: 350px;
+  position: relative;
+  background: radial-gradient(circle, rgba(15, 23, 42, 0.4) 0%, transparent 80%);
+}
+
+.countdown-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(4px);
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.timer-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timer-digits {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--color-gold);
+  text-shadow: var(--shadow-neon-gold);
+}
+
+.timer-label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Plating Math Box */
+.plating-math {
+  border-top: 3px solid var(--color-gold);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+.formula-block {
+  font-size: 1.2rem;
+  background: #090d16;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-glass);
+  text-align: center;
+  overflow-x: auto;
+}
+
+.plating-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.math-stat {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.math-stat span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.math-stat strong {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.05rem;
+  color: var(--color-gold);
+}
+
+.math-derivation {
+  font-size: 0.8rem;
+  color: var(--text-normal);
+  line-height: 1.6;
+}
+
+/* =========================================
+   REFERENCE POTENTIALS TABLE
+   ========================================= */
+.reference-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-box {
+  position: relative;
+  width: 250px;
+}
+
+.search-box i {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.search-input {
+  padding-left: 2rem;
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.ref-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: -1rem;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-glass);
+}
+
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.ref-table th, .ref-table td {
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.ref-table th {
+  background-color: var(--bg-inner);
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.ref-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.ref-table tr:last-child td {
+  border-bottom: none;
+}
+
+.ref-half-reaction {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: bold;
+}
+
+.ref-potential {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: bold;
+}
+
+.ref-potential.positive {
+  color: var(--color-accent);
+}
+
+.ref-potential.negative {
+  color: var(--color-red);
+}
+
+.ref-behavior {
+  font-size: 0.8rem;
+  color: var(--text-normal);
+}
+
+/* =========================================
+   COMMON UTILITIES & BUTTONS
+   ========================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-sm {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  border-radius: 0.35rem;
+}
+
+.btn-lg {
+  padding: 0.85rem 1.75rem;
+  font-size: 1.05rem;
+  border-radius: 0.75rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #000;
+}
+
+.btn-primary:hover {
+  box-shadow: var(--shadow-neon-primary);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-bright);
+  border: 1px solid var(--border-glass-bright);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--text-bright);
+}
+
+.btn-success {
+  background-color: var(--color-accent);
+  color: #000;
+}
+
+.btn-success:hover {
+  box-shadow: var(--shadow-neon-accent);
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background-color: var(--color-red);
+  color: var(--text-bright);
+}
+
+.btn-danger:hover {
+  box-shadow: var(--shadow-neon-red);
+  transform: translateY(-1px);
+}
+
+.text-gold { color: var(--color-gold); }
+.text-cyan { color: var(--color-primary); }
+.text-orange { color: #f97316; }
+.text-red { color: var(--color-red); }
+.text-green { color: var(--color-accent); }
+.hide { display: none !important; }
+
+/* Animations & Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-glow {
+  from { filter: drop-shadow(0 0 2px rgba(6, 182, 212, 0.4)); }
+  to { filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.8)); }
+}
+
+/* Flow animations */
+@keyframes flow-left {
+  to { stroke-dashoffset: 20; }
+}
+
+@keyframes flow-right {
+  to { stroke-dashoffset: -20; }
+}
+
+/* Bubbling animations for Plating Lab */
+@keyframes bubbleUp {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(-80px) scale(1.2); opacity: 0; }
+}
+
+.bubble {
+  position: absolute;
+  fill: none;
+  stroke: rgba(14, 165, 233, 0.6);
+  stroke-width: 1.5;
+  animation: bubbleUp 1.5s infinite linear;
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+  .app-container {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-glass);
+    padding: 1rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .sidebar-header {
+    padding-bottom: 0;
+  }
+  
+  .nav-menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  
+  .nav-item span, .sidebar-footer {
+    display: none;
+  }
+  
+  .main-content {
+    height: calc(100vh - 75px);
+  }
+  
+  .top-bar {
+    padding: 1rem 1.5rem;
+  }
+  
+  .tab-pane {
+    padding: 1.5rem;
+  }
+  
+  .lab-layout, .builder-layout, .plating-layout, .redox-layout {
+    grid-template-columns: 1fr;
+  }
+}

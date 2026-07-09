@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElectroLab | Interactive Electrochemistry Portal</title>
+  <meta name="description" content="Discover the power of electrochemistry through interactive simulations, battery engineering challenges, redox balancing games, and virtual electroplating labs.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+  
+  <!-- App Shell -->
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <i class="fa-solid fa-bolt logo-icon"></i>
+          <span>ElectroLab</span>
+        </div>
+      </div>
+      
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="dashboard">
+          <i class="fa-solid fa-house-chimney"></i>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-tab="simulator">
+          <i class="fa-solid fa-flask"></i>
+          <span>Galvanic Cell Lab</span>
+        </button>
+        <button class="nav-item" data-tab="battery-builder">
+          <i class="fa-solid fa-car-battery"></i>
+          <span>Battery Builder</span>
+        </button>
+        <button class="nav-item" data-tab="redox-game">
+          <i class="fa-solid fa-equals"></i>
+          <span>Redox Rush</span>
+        </button>
+        <button class="nav-item" data-tab="plating-lab">
+          <i class="fa-solid fa-ring"></i>
+          <span>Electroplating Lab</span>
+        </button>
+        <button class="nav-item" data-tab="reference">
+          <i class="fa-solid fa-list-ol"></i>
+          <span>Potentials Table</span>
+        </button>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <button id="sound-toggle" class="control-btn footer-btn" title="Toggle Sound Effects">
+          <i class="fa-solid fa-volume-high"></i>
+          <span>Sound ON</span>
+        </button>
+        <div class="footer-info">
+          <p>© 2026 ElectroLab Edu</p>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="page-title-container">
+          <h1 id="current-page-title">Welcome to ElectroLab</h1>
+          <p id="current-page-subtitle">Learn the chemistry of electricity and electron transfer</p>
+        </div>
+        <div class="user-stats">
+          <div class="stat-badge score-badge">
+            <i class="fa-solid fa-trophy text-gold"></i>
+            <span>Score: <strong id="user-score">0</strong> pts</span>
+          </div>
+          <div class="stat-badge level-badge">
+            <i class="fa-solid fa-star text-cyan"></i>
+            <span>Level: <strong id="user-level">1</strong></span>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Tab Content Area -->
+      <div class="tab-content-container">
+        
+        <!-- DASHBOARD TAB -->
+        <section id="dashboard" class="tab-pane active">
+          <div class="welcome-banner">
+            <div class="welcome-text">
+              <h2>Unleash the Power of Electrons!</h2>
+              <p>Step into the ultimate interactive sandbox for Electrochemistry. Simulate real-world galvanic cells, balance redox equations, electroplate virtual objects, and design complex batteries to power modern gadgets!</p>
+              <button class="btn btn-primary" onclick="document.querySelector('[data-tab=simulator]').click()">
+                <i class="fa-solid fa-play"></i> Get Started
+              </button>
+            </div>
+            <div class="welcome-graphic">
+              <!-- Animated SVG cell graphics -->
+              <svg viewBox="0 0 200 200" width="160" height="160" class="floating-svg">
+                <defs>
+                  <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="var(--color-primary)" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="var(--color-primary)" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="100" cy="100" r="80" fill="url(#glow)" />
+                <path d="M70,130 L70,80 A30,30 0 0,1 130,80 L130,130" fill="none" stroke="var(--color-primary)" stroke-width="6" stroke-linecap="round" />
+                <rect x="55" y="80" width="30" height="60" rx="3" fill="var(--color-secondary)" />
+                <rect x="115" y="80" width="30" height="60" rx="3" fill="var(--color-accent)" />
+                <line x1="85" y1="60" x2="115" y2="60" stroke="var(--text-bright)" stroke-width="4" stroke-dasharray="4 4" />
+                <circle cx="100" cy="60" r="12" fill="var(--bg-card)" stroke="var(--color-primary)" stroke-width="3" />
+                <path d="M97,60 L103,55 L103,65 Z" fill="var(--color-primary)" />
+              </svg>
+            </div>
+          </div>
+          
+          <h3 class="section-title">Explore Core Activities</h3>
+          <div class="dashboard-grid">
+            
+            <div class="dash-card glass" onclick="document.querySelector('[data-tab=simulator]').click()">
+              <div class="card-icon cyan"><i class="fa-solid fa-flask-vial"></i></div>
+              <h4>Galvanic Cell Lab</h4>
+              <p>Build a battery cell from scratch. Select anode and cathode metals, watch standard potential update, and trace electron flow through a live visual simulation.</p>
+              <span class="card-action">Enter Lab <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+            
+            <div class="dash-card glass" onclick="document.querySelector('[data-tab=battery-builder]').click()">
+              <div class="card-icon purple"><i class="fa-solid fa-bolt-lightning"></i></div>
+              <h4>Battery Builder</h4>
+              <p>Put your knowledge to the test. Combine cells in series and parallel configuration to achieve target voltages and power real-world gadgets without blowing them up!</p>
+              <span class="card-action">Start Challenge <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+            
+            <div class="dash-card glass" onclick="document.querySelector('[data-tab=redox-game]').click()">
+              <div class="card-icon green"><i class="fa-solid fa-arrows-spin"></i></div>
+              <h4>Redox Rush</h4>
+              <p>Practice balancing complex oxidation-reduction reactions in acidic environments. Drag and drop coefficients, earn streak multipliers, and top the leaderboard.</p>
+              <span class="card-action">Play Game <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+            
+            <div class="dash-card glass" onclick="document.querySelector('[data-tab=plating-lab]').click()">
+              <div class="card-icon gold"><i class="fa-solid fa-gem"></i></div>
+              <h4>Electroplating Lab</h4>
+              <p>Deposit metals onto everyday items using Faraday's Laws. Set currents and timers, watch gold and silver deposit in real time, and verify the math step-by-step.</p>
+              <span class="card-action">Start Plating <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+            
+          </div>
+        </section>
+        
+        <!-- GALVANIC CELL SIMULATOR TAB -->
+        <section id="simulator" class="tab-pane">
+          <div class="lab-layout">
+            
+            <!-- Controls Panel -->
+            <div class="lab-controls glass">
+              <h3>Cell Setup</h3>
+              <p class="panel-subtitle">Select electrodes to construct your voltaic cell</p>
+              
+              <div class="form-group">
+                <label for="anode-select"><i class="fa-solid fa-minus-square text-red"></i> Anode (Oxidation - Left)</label>
+                <select id="anode-select" class="form-control"></select>
+                <div class="potential-indicator" id="anode-potential">E⁰ = 0.00 V</div>
+              </div>
+              
+              <div class="form-group">
+                <label for="cathode-select"><i class="fa-solid fa-plus-square text-green"></i> Cathode (Reduction - Right)</label>
+                <select id="cathode-select" class="form-control"></select>
+                <div class="potential-indicator" id="cathode-potential">E⁰ = 0.00 V</div>
+              </div>
+              
+              <hr class="divider">
+              
+              <div class="voltage-display">
+                <span class="voltage-label">Standard Cell Potential (E⁰<sub>cell</sub>)</span>
+                <span class="voltage-value" id="voltage-value">0.00 V</span>
+              </div>
+              
+              <div class="reaction-box">
+                <h4>Overall Reaction</h4>
+                <div class="formula" id="overall-reaction">Zn + Cu²⁺ → Zn²⁺ + Cu</div>
+                
+                <div class="half-reactions-grid">
+                  <div class="half-rxn">
+                    <h5>Anode (Oxidation)</h5>
+                    <code id="anode-reaction">Zn → Zn²⁺ + 2e⁻</code>
+                  </div>
+                  <div class="half-rxn">
+                    <h5>Cathode (Reduction)</h5>
+                    <code id="cathode-reaction">Cu²⁺ + 2e⁻ → Cu</code>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="quick-facts glass-inner" id="cell-facts">
+                <p><i class="fa-solid fa-lightbulb text-gold"></i> Choose different electrode combinations to see details.</p>
+              </div>
+            </div>
+            
+            <!-- Visual Simulator Panel -->
+            <div class="lab-visual glass">
+              <div class="voltmeter-meter">
+                <div class="needle" id="voltmeter-needle"></div>
+                <div class="dial-ticks">
+                  <span>-3V</span><span>-2V</span><span>-1V</span><span>0V</span><span>+1V</span><span>+2V</span><span>+3V</span>
+                </div>
+                <span class="voltmeter-screen" id="voltmeter-screen">0.00 V</span>
+              </div>
+              
+              <!-- SVG Cell Simulator -->
+              <div class="svg-container">
+                <svg id="cell-svg" viewBox="0 0 600 400" width="100%" height="100%">
+                  <!-- Salt Bridge -->
+                  <path id="salt-bridge" d="M 220 220 L 220 140 A 80 80 0 0 1 380 140 L 380 220" fill="none" stroke="#475569" stroke-width="28" stroke-linecap="round"/>
+                  <path id="salt-bridge-fluid" d="M 220 220 L 220 140 A 80 80 0 0 1 380 140 L 380 220" fill="none" stroke="#e2e8f0" stroke-width="20" stroke-opacity="0.8" stroke-linecap="round"/>
+                  
+                  <!-- Wire -->
+                  <path id="cell-wire" d="M 150 160 L 150 80 L 450 80 L 450 160" fill="none" stroke="#fbbf24" stroke-width="4"/>
+                  
+                  <!-- Electron dots container (we will animate these in JS or CSS) -->
+                  <g id="electrons-group"></g>
+                  
+                  <!-- Voltmeter base -->
+                  <rect x="260" y="55" width="80" height="50" rx="5" fill="#1e293b" stroke="#475569" stroke-width="3" />
+                  <circle cx="300" cy="80" r="15" fill="#0f172a" stroke="#fbbf24" stroke-width="2" />
+                  <text x="300" y="85" font-family="'JetBrains Mono'" font-weight="bold" font-size="14" fill="#fbbf24" text-anchor="middle">V</text>
+                  
+                  <!-- Left Beaker (Anode) -->
+                  <rect x="75" y="195" width="150" height="150" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="4" />
+                  <rect id="left-electrolyte" x="79" y="215" width="142" height="126" rx="4" fill="rgba(255,255,255,0.05)" />
+                  <rect id="anode-electrode" x="135" y="150" width="30" height="130" rx="3" fill="#cbd5e1" />
+                  <text x="150" y="295" font-family="Outfit" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle" id="anode-label">Anode</text>
+                  
+                  <!-- Right Beaker (Cathode) -->
+                  <rect x="375" y="195" width="150" height="150" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="4" />
+                  <rect id="right-electrolyte" x="379" y="215" width="142" height="126" rx="4" fill="rgba(255,255,255,0.05)" />
+                  <rect id="cathode-electrode" x="435" y="150" width="30" height="130" rx="3" fill="#cbd5e1" />
+                  <text x="450" y="295" font-family="Outfit" font-weight="bold" font-size="16" fill="#ffffff" text-anchor="middle" id="cathode-label">Cathode</text>
+                  
+                  <!-- Labels and details -->
+                  <!-- Salt bridge ions -->
+                  <g id="bridge-ions-group"></g>
+                  
+                  <!-- Electrolyte ions -->
+                  <g id="electrolyte-ions-group"></g>
+                </svg>
+              </div>
+              
+              <div class="simulation-controls">
+                <button class="btn btn-secondary" id="btn-pause-sim"><i class="fa-solid fa-pause"></i> Pause Sim</button>
+                <button class="btn btn-primary" id="btn-reset-sim"><i class="fa-solid fa-rotate-right"></i> Reset Cell</button>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <!-- BATTERY BUILDER CHALLENGE TAB -->
+        <section id="battery-builder" class="tab-pane">
+          <div class="builder-layout">
+            
+            <!-- Levels & Info Panel -->
+            <div class="builder-sidebar glass">
+              <h3>Challenges</h3>
+              <p class="panel-subtitle">Select a mission and build a functioning battery pack</p>
+              
+              <div class="level-list" id="level-list">
+                <!-- Programmatically generated levels -->
+              </div>
+              
+              <div class="level-requirements glass-inner hide" id="level-details-box">
+                <h4>Mission Requirements</h4>
+                <div class="req-item">
+                  <span class="req-label">Target Device:</span>
+                  <span class="req-val" id="req-device">Red LED 💡</span>
+                </div>
+                <div class="req-item">
+                  <span class="req-label">Voltage Window:</span>
+                  <span class="req-val text-cyan" id="req-voltage">1.6V - 2.2V</span>
+                </div>
+                <div class="req-desc" id="req-desc">
+                  Build a battery that fits within the target range. Exceeding the maximum voltage will fry the device! Under-powering it won't activate it.
+                </div>
+                <div class="req-hint">
+                  <strong>💡 Hint:</strong> <span id="req-hint-text">Use zinc and copper.</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Workbench Area -->
+            <div class="builder-workbench glass">
+              <div class="workbench-header">
+                <h3>Battery Grid Workbench</h3>
+                <div class="workbench-actions">
+                  <button class="btn btn-danger btn-sm" id="btn-clear-grid"><i class="fa-solid fa-trash"></i> Clear Grid</button>
+                </div>
+              </div>
+              
+              <p class="workbench-subtitle">Configure battery cells. Place cells and connect them in Series (additive voltage) or Parallel (increased capacity/current density).</p>
+              
+              <div class="grid-controls">
+                <div class="selector-group">
+                  <label for="cell-chem-select">Cell Chemistry:</label>
+                  <select id="cell-chem-select" class="form-control inline-select">
+                    <!-- Loaded dynamically from electrode list in data -->
+                  </select>
+                </div>
+                <div class="voltage-display-mini">
+                  <span>Unit Voltage: <strong id="unit-voltage-val">1.10 V</strong></span>
+                </div>
+              </div>
+              
+              <!-- Battery Grid Visualizer -->
+              <div class="battery-grid-container">
+                <div class="battery-grid" id="battery-grid">
+                  <!-- JS will dynamically populate standard cells in series slots -->
+                </div>
+              </div>
+              
+              <div class="workbench-summary">
+                <div class="meter-bar">
+                  <span class="meter-label">Total Built Voltage:</span>
+                  <div class="meter-track">
+                    <div class="meter-fill" id="built-voltage-fill" style="width: 0%"></div>
+                    <div class="target-range-indicator" id="voltage-target-marker"></div>
+                  </div>
+                  <span class="meter-value" id="built-voltage-val">0.00 V</span>
+                </div>
+                
+                <div class="workbench-buttons">
+                  <button class="btn btn-success btn-lg" id="btn-test-battery">
+                    <i class="fa-solid fa-plug-circle-check"></i> Power Up & Test!
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Test Results Overlay/Card -->
+              <div class="test-result-panel glass-inner hide" id="test-result-panel">
+                <div class="result-header">
+                  <span class="result-icon" id="result-icon">⚡</span>
+                  <h4 id="result-title">Testing Results</h4>
+                </div>
+                <p id="result-message">Connect cells to power up the device.</p>
+                <div class="result-details" id="result-details"></div>
+                <button class="btn btn-primary btn-sm hide" id="btn-next-level">Next Challenge <i class="fa-solid fa-arrow-right"></i></button>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <!-- REDOX BALANCING GAME TAB -->
+        <section id="redox-game" class="tab-pane">
+          <div class="redox-layout">
+            
+            <!-- Game Board -->
+            <div class="redox-board glass">
+              <div class="redox-header">
+                <div class="difficulty-selectors">
+                  <button class="btn btn-sm btn-secondary active" data-difficulty="easy">Easy</button>
+                  <button class="btn btn-sm btn-secondary" data-difficulty="medium">Medium</button>
+                  <button class="btn btn-sm btn-secondary" data-difficulty="hard">Hard</button>
+                </div>
+                <div class="streak-counter">
+                  <i class="fa-solid fa-fire text-orange"></i> Streak: <span id="redox-streak">0</span>
+                </div>
+              </div>
+              
+              <div class="equation-container">
+                <h3>Balance the Redox Equation</h3>
+                <p class="equation-help" id="equation-help">Balance both the number of atoms and the overall charge. Enter the correct coefficients.</p>
+                
+                <div class="equation-formula-box" id="redox-equation-form">
+                  <!-- Equation input fields generated by JS -->
+                </div>
+                
+                <div class="equation-actions">
+                  <button class="btn btn-primary btn-lg" id="btn-check-redox"><i class="fa-solid fa-circle-check"></i> Submit Coefficients</button>
+                  <button class="btn btn-secondary btn-lg" id="btn-skip-redox"><i class="fa-solid fa-forward"></i> Skip Reaction</button>
+                </div>
+              </div>
+              
+              <!-- Success / Failure Explanation panel -->
+              <div class="redox-feedback glass-inner hide" id="redox-feedback">
+                <h4 id="feedback-title"><i class="fa-solid fa-circle-xmark text-red"></i> Incorrect</h4>
+                <p id="feedback-text">Let's look at standard rules to balance this...</p>
+                <div class="explanation-box" id="redox-explanation">
+                  <!-- Step-by-step balancing logic -->
+                </div>
+                <button class="btn btn-primary btn-sm" id="btn-next-redox">Next Equation <i class="fa-solid fa-arrow-right"></i></button>
+              </div>
+            </div>
+            
+            <!-- Rules / Tutorial Box -->
+            <div class="redox-rules glass">
+              <h3>Balancing Tutorial</h3>
+              <div class="rules-scroll">
+                <h4>Half-Reaction Method:</h4>
+                <ol class="bal-steps">
+                  <li><strong>Identify:</strong> Write the oxidation and reduction half-reactions.</li>
+                  <li><strong>Balance Atoms:</strong> Balance elements other than O and H.</li>
+                  <li><strong>Balance Oxygen:</strong> Add H₂O to balance O.</li>
+                  <li><strong>Balance Hydrogen:</strong> Add H⁺ to balance H (acidic medium).</li>
+                  <li><strong>Balance Charge:</strong> Add electrons (e⁻) to equal the charge.</li>
+                  <li><strong>Multiply:</strong> Multiply half-reactions by integers so electrons lost = electrons gained.</li>
+                  <li><strong>Add:</strong> Sum the equations and cancel out common substances.</li>
+                </ol>
+                <div class="pro-tip glass-inner">
+                  <h5>💡 Pro-Tip</h5>
+                  <p>In easy levels, focus on matching the total charge of the left side (reactants) with the right side (products).</p>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <!-- ELECTROPLATING LAB TAB -->
+        <section id="plating-lab" class="tab-pane">
+          <div class="plating-layout">
+            
+            <!-- Controls and Calculations -->
+            <div class="plating-controls glass">
+              <h3>Deposition Panel</h3>
+              <p class="panel-subtitle font-sm">Deposit metal ions onto a substrate using Faraday's Law</p>
+              
+              <div class="form-group">
+                <label for="plating-metal"><i class="fa-solid fa-cubes text-yellow"></i> Electroplating Metal</label>
+                <select id="plating-metal" class="form-control"></select>
+                <div class="potential-indicator font-sm" id="plating-metal-desc">Molar Mass: - / Charge: -</div>
+              </div>
+              
+              <div class="form-group">
+                <label for="plating-object"><i class="fa-solid fa-key text-blue"></i> Object to Plate</label>
+                <select id="plating-object" class="form-control"></select>
+                <div class="potential-indicator font-sm" id="plating-object-desc">Surface Area: - cm²</div>
+              </div>
+              
+              <div class="form-group">
+                <label for="plating-current">Current (Amperes): <strong id="current-val">2.0</strong> A</label>
+                <input type="range" id="plating-current" min="0.5" max="10.0" step="0.5" value="2.0" class="slider">
+              </div>
+              
+              <div class="form-group">
+                <label for="plating-time">Duration (Minutes): <strong id="time-val">5.0</strong> min</label>
+                <input type="range" id="plating-time" min="1.0" max="30.0" step="1.0" value="5.0" class="slider">
+              </div>
+              
+              <div class="plating-actions">
+                <button class="btn btn-success btn-lg btn-block" id="btn-start-plating">
+                  <i class="fa-solid fa-industry"></i> Run Electroplating Lab
+                </button>
+              </div>
+            </div>
+            
+            <!-- Visual Plating Tank -->
+            <div class="plating-tank-container glass">
+              <div class="tank-voltmeter">
+                <span>Power Supply: <strong id="ps-current">0.00</strong> A</span>
+                <span class="bubble-indicator hide" id="bubbles-flag"><i class="fa-solid fa-wind"></i> Bubbles Formed</span>
+              </div>
+              
+              <!-- Interactive Visual SVG Tank -->
+              <div class="tank-visual-box">
+                <svg id="tank-svg" viewBox="0 0 500 350" width="100%" height="100%">
+                  <!-- Electrolyte Solution -->
+                  <rect id="tank-solution" x="40" y="110" width="420" height="200" rx="10" fill="rgba(14, 165, 233, 0.2)" />
+                  <line x1="40" y1="110" x2="460" y2="110" stroke="rgba(14, 165, 233, 0.5)" stroke-width="4" stroke-dasharray="8 4" />
+                  
+                  <!-- Beaker Glass -->
+                  <rect x="35" y="60" width="430" height="260" rx="15" fill="none" stroke="#64748b" stroke-width="6" />
+                  
+                  <!-- Power Rods (Anode and Cathode hanger) -->
+                  <line x1="100" y1="50" x2="400" y2="50" stroke="#334155" stroke-width="8" stroke-linecap="round" />
+                  
+                  <!-- Left Anode (Plating metal) -->
+                  <line x1="150" y1="50" x2="150" y2="90" stroke="#fbbf24" stroke-width="4" />
+                  <rect id="plating-anode" x="130" y="90" width="40" height="150" rx="2" fill="#cbd5e1" />
+                  <text id="anode-txt" x="150" y="260" font-family="Outfit" font-size="14" fill="#94a3b8" text-anchor="middle">Copper Anode</text>
+                  
+                  <!-- Right Cathode (Target Object) -->
+                  <line x1="350" y1="50" x2="350" y2="120" stroke="#334155" stroke-width="4" />
+                  
+                  <!-- Key or Spoon or Ring Drawing (using coordinates) -->
+                  <g id="plated-object-container" transform="translate(320, 110) scale(1)">
+                    <!-- Dynamically drawn by JavaScript -->
+                  </g>
+                  
+                  <text id="cathode-txt" x="350" y="260" font-family="Outfit" font-size="14" fill="#94a3b8" text-anchor="middle">Object</text>
+                  
+                  <!-- Wires from power supply -->
+                  <path d="M 150 50 L 150 20 L 220 20" fill="none" stroke="#ef4444" stroke-width="3" />
+                  <path d="M 350 50 L 350 20 L 280 20" fill="none" stroke="#3b82f6" stroke-width="3" />
+                  
+                  <!-- DC Power supply box -->
+                  <rect x="220" y="5" width="60" height="30" rx="4" fill="#0f172a" stroke="#475569" stroke-width="2" />
+                  <text x="250" y="24" font-family="JetBrains Mono" font-size="12" fill="#ef4444" text-anchor="middle" id="tank-supply-voltage">DC</text>
+                  
+                  <!-- Animations particles -->
+                  <g id="plating-particles-group"></g>
+                </svg>
+                
+                <!-- Countdown Overlay -->
+                <div class="countdown-overlay hide" id="countdown-overlay">
+                  <div class="timer-box">
+                    <span class="timer-digits" id="timer-digits">00:00</span>
+                    <span class="timer-label">Plating in Progress...</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Plating Math Explainer -->
+              <div class="plating-math glass-inner hide" id="plating-math-box">
+                <h4>Faraday's Law Analysis</h4>
+                <div class="formula-block">
+                  $$m = \frac{Q \cdot M}{z \cdot F} = \frac{I \cdot t \cdot M}{z \cdot F}$$
+                </div>
+                <div class="plating-stats-grid">
+                  <div class="math-stat">
+                    <span>Charge Passed (Q):</span>
+                    <strong id="math-charge">0 C</strong>
+                  </div>
+                  <div class="math-stat">
+                    <span>Theoretical Mass:</span>
+                    <strong id="math-mass">0.0000 g</strong>
+                  </div>
+                  <div class="math-stat">
+                    <span>Plate Thickness:</span>
+                    <strong id="math-thickness">0.00 μm</strong>
+                  </div>
+                </div>
+                <div class="math-derivation" id="math-explanation">
+                  <!-- Calculations shown step by step -->
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+        
+        <!-- REDUCTION POTENTIALS REFERENCE TABLE -->
+        <section id="reference" class="tab-pane">
+          <div class="reference-container glass">
+            <div class="table-header">
+              <h3>Standard Reduction Potentials (at 25 °C)</h3>
+              <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="ref-search" placeholder="Search by metal or symbol..." class="form-control search-input">
+              </div>
+            </div>
+            
+            <p class="ref-desc">Half-reactions are ordered from the most positive potential (strongest oxidizing agents / least active metals) to the most negative potential (strongest reducing agents / most active metals).</p>
+            
+            <div class="table-scroll">
+              <table class="ref-table">
+                <thead>
+                  <tr>
+                    <th>Half-Reaction (Reduction)</th>
+                    <th>Standard Potential (E⁰, Volts)</th>
+                    <th>Electrochemical Behavior</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="reference-table-body">
+                  <!-- Generated dynamically in JS from data.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        
+      </div>
+    </main>
+  </div>
+  
+  <!-- MathJax for rendering equations in Plating tab -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+  <!-- Scripts -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
